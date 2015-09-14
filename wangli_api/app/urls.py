@@ -14,6 +14,6 @@ urlpatterns += [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 urlpatterns += [
-    url(r'^app/snippets/$', views.snippet_list),
-    url(r'^app/snippets/(?P<pk>[0-9]+)/$', views.snippet_detail),
+    url(r'^app/snippets/$', views.SnippetList.as_view()),
+    url(r'^app/snippets/(?P<pk>[0-9]+)/$', views.SnippetDetail.as_view()),
 ]
