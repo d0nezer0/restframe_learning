@@ -13,3 +13,7 @@ urlpatterns += [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+urlpatterns += [
+    url(r'^app/snippets/$', views.snippet_list),
+    url(r'^app/snippets/(?P<pk>[0-9]+)/$', views.snippet_detail),
+]

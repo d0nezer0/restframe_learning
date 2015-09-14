@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'wangli_api.app',
 )
 
 REST_FRAMEWORK = {
@@ -65,7 +66,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR, 'wangli_api/mysql.cnf'),
+            'read_default_file': os.path.join(BASE_DIR, 'mysql.cnf'),
         }
     },
 
