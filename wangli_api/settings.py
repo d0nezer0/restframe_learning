@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'wangli_api.app',
+    'south',        # for migration
 )
 
 REST_FRAMEWORK = {

@@ -4,10 +4,12 @@ from rest_framework import serializers
 from wangli_api.app.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'groups')
+        fields = ('id', 'username', 'snippets')
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
