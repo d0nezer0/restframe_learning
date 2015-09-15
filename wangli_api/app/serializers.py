@@ -25,17 +25,27 @@ class SnippetSerializer(serializers.Serializer):
     linenos = serializers.BooleanField(required=False)
     language = serializers.ChoiceField(choices=LANGUAGE_CHOICES, default='python')
     style = serializers.ChoiceField(choices=STYLE_CHOICES, default='friendly')
+    owner = serializers.ReadOnlyField(source='owner.username')
+
+    class Meta:
+        model = Group
+        fields = ('pk', 'title', 'code', 'linenos', 'language', 'style', 'owner')
 
     def create(self, validated_data):
         """
         Create and return a new `Snippet` instance, given the validated data.
+        This addition is below page of http://127.0.0.1:8888/app/snippets/
         """
+        print '##'*100
+        print validated_data
         return Snippet.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         """
         Update and return an existing `Snippet` instance, given the validated data.
+        This function updated with url http://127.0.0.1:8888/app/snippets/5/
         """
+        print instance.pk
         instance.title = validated_data.get('title', instance.title)
         instance.code = validated_data.get('code', instance.code)
         instance.linenos = validated_data.get('linenos', instance.linenos)

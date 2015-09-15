@@ -3,9 +3,11 @@ from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 from wangli_api.app.models import Snippet
+from wangli_api.app.permissions import IsOwnerOrReadOnly
 from wangli_api.app.serializers import UserSerializer, GroupSerializer, SnippetSerializer
 
 from rest_framework import generics
+from rest_framework import permissions
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -45,10 +47,21 @@ class JSONResponse(HttpResponse):
 
 
 class SnippetList(generics.ListCreateAPIView):
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer

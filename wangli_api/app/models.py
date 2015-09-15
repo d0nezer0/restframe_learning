@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from pygments.lexers import get_all_lexers
 from pygments.styles import get_all_styles
@@ -20,7 +21,6 @@ class Snippet(models.Model):
     # add info for model, use migrate.
     owner = models.ForeignKey('auth.User', related_name='snippets')
     highlighted = models.TextField()
-
 
     class Meta:
         ordering = ('created',)

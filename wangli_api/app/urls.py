@@ -11,6 +11,7 @@ router.register(r'router/groups', views.GroupViewSet)
 
 urlpatterns += [
     url(r'^', include(router.urls)),
+    # this is for user to login and logout
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 urlpatterns += [
