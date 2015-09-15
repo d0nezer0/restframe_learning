@@ -9,6 +9,32 @@ from wangli_api.app.serializers import UserSerializer, GroupSerializer, SnippetS
 from rest_framework import generics
 from rest_framework import permissions
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework import renderers
+
+
+@api_view(('GET',))
+def api_root(request, format=None):
+    """
+    First, we're using REST framework's reverse function in order to return fully-qualified URLs;
+    second, URL patterns are identified by convenience names that we will declare later on in our snippets/urls.py.
+    """
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'snippets': reverse('snippet-list', request=request, format=format)
+    })
+
+
+class SnippetHighlight(generics.GenericAPIView):
+    queryset = Snippet.objects.all()
+    renderer_classes = (renderers.StaticHTMLRenderer,)
+
+    def get(self, request, *args, **kwargs):
+        snippet = self.get_object()
+        return Response(snippet.highlighted)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
