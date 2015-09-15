@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 from wangli_api.app.models import Snippet
-from wangli_api.app.permissions import IsOwnerOrReadOnly
+from wangli_api.app.permissions import IsOwnerOrReadOnly, AurhorityForRequest
 from wangli_api.app.serializers import UserSerializer, GroupSerializer, SnippetSerializer
 
 from rest_framework import generics
@@ -74,7 +74,8 @@ class SnippetViewSet(viewsets.ModelViewSet):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+                          IsOwnerOrReadOnly,
+                          AurhorityForRequest)
 
     @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
     def highlight(self, request, *args, **kwargs):
